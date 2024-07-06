@@ -7,7 +7,7 @@
 - [ ] It should be able to authenticate using email & password
 - [ ] It should be able to authenticate using Github account
 - [ ] It should be able to recover passowrd using email
-- [ ] It should be able to create an account (email, name and password)
+- [x] It should be able to create an account (email, name and password)
 
 ### Organizations
 
