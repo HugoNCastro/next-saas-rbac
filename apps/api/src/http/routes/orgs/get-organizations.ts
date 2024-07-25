@@ -1,6 +1,6 @@
 import { roleSchema } from '@saas/auth'
-import { FastifyInstance } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import type { FastifyInstance } from 'fastify'
+import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { auth } from '@/http/middlewares/auth'
@@ -15,11 +15,8 @@ export async function getOrganizations(app: FastifyInstance) {
       {
         schema: {
           tags: ['organizations'],
-          summary: 'Get organization where user is a member',
+          summary: 'Get organizations where user is a member',
           security: [{ bearerAuth: [] }],
-          params: z.object({
-            slug: z.string(),
-          }),
           response: {
             200: z.object({
               organizations: z.array(
@@ -44,7 +41,6 @@ export async function getOrganizations(app: FastifyInstance) {
             name: true,
             slug: true,
             avatarUrl: true,
-            domain: true,
             members: {
               select: {
                 role: true,
@@ -56,20 +52,23 @@ export async function getOrganizations(app: FastifyInstance) {
           },
           where: {
             members: {
-              some: { userId },
+              some: {
+                userId,
+              },
             },
           },
         })
 
         const organizationsWithUserRole = organizations.map(
           ({ members, ...org }) => {
-            return { ...org, role: members[0].role }
+            return {
+              ...org,
+              role: members[0].role,
+            }
           },
         )
 
-        return {
-          organizations: organizationsWithUserRole,
-        }
+        return { organizations: organizationsWithUserRole }
       },
     )
 }
