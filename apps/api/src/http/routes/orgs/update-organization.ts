@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { auth } from '@/http/middlewares/auth'
 import { prisma } from '@/lib/prisma'
-import { getUserPermisssions } from '@/utils/get-user-permissions'
+import { getUserPermissions } from '@/utils/get-user-permissions'
 
 import { BadRequestError } from '../_errors/bad-request-error'
 import { UnauthorizedError } from '../_errors/unauthorized-error'
@@ -45,7 +45,7 @@ export async function updateOrganization(app: FastifyInstance) {
 
         const authOrganization = organizationSchema.parse(organization)
 
-        const { cannot } = getUserPermisssions(userId, membership.role)
+        const { cannot } = getUserPermissions(userId, membership.role)
 
         if (cannot('update', authOrganization)) {
           throw new UnauthorizedError(

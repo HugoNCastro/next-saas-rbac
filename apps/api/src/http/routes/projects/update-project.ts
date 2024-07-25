@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { auth } from '@/http/middlewares/auth'
 import { prisma } from '@/lib/prisma'
-import { getUserPermisssions } from '@/utils/get-user-permissions'
+import { getUserPermissions } from '@/utils/get-user-permissions'
 
 import { BadRequestError } from '../_errors/bad-request-error'
 import { UnauthorizedError } from '../_errors/unauthorized-error'
@@ -14,7 +14,7 @@ export async function updateProject(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .patch(
+    .put(
       '/organizations/:slug/projects/:projectId',
       {
         schema: {
@@ -50,7 +50,7 @@ export async function updateProject(app: FastifyInstance) {
         if (!project) {
           throw new BadRequestError('Project not found.')
         }
-        const { cannot } = getUserPermisssions(userId, membership.role)
+        const { cannot } = getUserPermissions(userId, membership.role)
 
         const authProject = projectSchema.parse(project)
 

@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { auth } from '@/http/middlewares/auth'
 import { prisma } from '@/lib/prisma'
-import { getUserPermisssions } from '@/utils/get-user-permissions'
+import { getUserPermissions } from '@/utils/get-user-permissions'
 
 import { UnauthorizedError } from '../_errors/unauthorized-error'
 
@@ -37,7 +37,7 @@ export async function shutdownOrganization(app: FastifyInstance) {
 
         const authOrganization = organizationSchema.parse(organization)
 
-        const { cannot } = getUserPermisssions(userId, membership.role)
+        const { cannot } = getUserPermissions(userId, membership.role)
 
         if (cannot('delete', authOrganization)) {
           throw new UnauthorizedError(

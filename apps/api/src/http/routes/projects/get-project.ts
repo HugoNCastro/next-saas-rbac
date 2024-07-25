@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 import { auth } from '@/http/middlewares/auth'
 import { prisma } from '@/lib/prisma'
-import { getUserPermisssions } from '@/utils/get-user-permissions'
+import { getUserPermissions } from '@/utils/get-user-permissions'
 
 import { BadRequestError } from '../_errors/bad-request-error'
 import { UnauthorizedError } from '../_errors/unauthorized-error'
@@ -31,13 +31,13 @@ export async function getProject(app: FastifyInstance) {
                 description: z.string(),
                 name: z.string(),
                 slug: z.string(),
-                avatarUrl: z.string().nullable(),
+                avatarUrl: z.string().url().nullable(),
                 organizationId: z.string().uuid(),
                 ownerId: z.string().uuid(),
                 owner: z.object({
                   id: z.string().uuid(),
                   name: z.string().nullable(),
-                  avatarUrl: z.string().nullable(),
+                  avatarUrl: z.string().url().nullable(),
                 }),
               }),
             }),
@@ -50,7 +50,7 @@ export async function getProject(app: FastifyInstance) {
         const { membership, organization } =
           await request.getUserMembership(orgSlug)
 
-        const { cannot } = getUserPermisssions(userId, membership.role)
+        const { cannot } = getUserPermissions(userId, membership.role)
 
         if (cannot('get', 'Project')) {
           throw new UnauthorizedError(`You're not allowed to see this project.`)

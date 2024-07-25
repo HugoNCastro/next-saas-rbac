@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { auth } from '@/http/middlewares/auth'
 import { prisma } from '@/lib/prisma'
 import { createSlug } from '@/utils/create-slug'
-import { getUserPermisssions } from '@/utils/get-user-permissions'
+import { getUserPermissions } from '@/utils/get-user-permissions'
 
 import { UnauthorizedError } from '../_errors/unauthorized-error'
 
@@ -40,7 +40,7 @@ export async function createProject(app: FastifyInstance) {
         const { membership, organization } =
           await request.getUserMembership(slug)
 
-        const { cannot } = getUserPermisssions(userId, membership.role)
+        const { cannot } = getUserPermissions(userId, membership.role)
 
         if (cannot('create', 'Project')) {
           throw new UnauthorizedError(
