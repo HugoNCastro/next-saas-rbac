@@ -19,6 +19,7 @@ import { getProfile } from './routes/auth/get-profile'
 import { requestPasswordRecover } from './routes/auth/request.password-recover'
 import { resetPassword } from './routes/auth/reset-password'
 import { getMembers } from './routes/members/get-members'
+import { updateMember } from './routes/members/update-member'
 import { createOrganization } from './routes/orgs/create-organization'
 import { getMemberShip } from './routes/orgs/get-membership'
 import { getOrganization } from './routes/orgs/get-organization'
@@ -75,17 +76,21 @@ app.register(requestPasswordRecover)
 app.register(resetPassword)
 app.register(authenticateWithGithub)
 app.register(createOrganization)
+
 app.register(getMemberShip)
 app.register(getOrganization)
 app.register(getOrganizations)
 app.register(updateOrganization)
 app.register(shutdownOrganization)
 app.register(transferOrganization)
+
 app.register(createProject)
 app.register(deleteProject)
 app.register(getProject)
 app.register(updateProject)
+
 app.register(getMembers)
+app.register(updateMember)
 
 app.listen({ port: env.SERVER_PORT }).then(() => {
   console.log('HTTP server running!')
