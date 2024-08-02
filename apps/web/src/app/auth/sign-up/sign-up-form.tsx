@@ -1,5 +1,7 @@
 'use client'
 
+import { Label } from '@radix-ui/react-label'
+import { Separator } from '@radix-ui/react-separator'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -8,20 +10,18 @@ import { FaGithub } from 'react-icons/fa'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
 import { useFormState } from '@/hooks/use-form-state'
 
 import { signInWithGithub } from '../actions'
-import { signInWithEmailandPassword } from './actions'
+import { signUpAction } from './actions'
 
-export function SignInForm() {
+export default function SignUpForm() {
   const router = useRouter()
 
   const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
-    signInWithEmailandPassword,
+    signUpAction,
     () => {
-      router.push('/')
+      router.push('/auth/sign-in')
     },
   )
 
@@ -39,9 +39,18 @@ export function SignInForm() {
         )}
 
         <div className="space-y-1">
+          <Label htmlFor="name">Name</Label>
+          <Input name="name" id="name" />
+          {errors?.name && (
+            <p className="text-xs font-medium text-red-500 dark:text-red-400">
+              {errors.name[0]}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-1">
           <Label htmlFor="email">E-mail</Label>
           <Input name="email" type="email" id="email" />
-
           {errors?.email && (
             <p className="text-xs font-medium text-red-500 dark:text-red-400">
               {errors.email[0]}
@@ -52,31 +61,38 @@ export function SignInForm() {
         <div className="space-y-1">
           <Label htmlFor="password">Password</Label>
           <Input name="password" type="password" id="password" />
-
           {errors?.password && (
             <p className="text-xs font-medium text-red-500 dark:text-red-400">
               {errors.password[0]}
             </p>
           )}
+        </div>
 
-          <Link
-            href="/auth/forgot-password"
-            className="text-xs font-medium text-foreground hover:underline"
-          >
-            Forgot your password?
-          </Link>
+        <div className="space-y-1">
+          <Label htmlFor="password_confirmation">Confirm your password</Label>
+          <Input
+            name="password_confirmation"
+            type="password"
+            id="password_confirmation"
+          />
+
+          {errors?.password_confirmation && (
+            <p className="text-xs font-medium text-red-500 dark:text-red-400">
+              {errors.password_confirmation[0]}
+            </p>
+          )}
         </div>
 
         <Button className="w-full" type="submit">
           {isPending ? (
             <Loader2 className="size-4 animate-spin" />
           ) : (
-            'Sign in with e-mail'
+            'Create account'
           )}
         </Button>
 
         <Button className="w-full" variant="link" asChild size="sm">
-          <Link href="/auth/sign-up">Create new account</Link>
+          <Link href="/auth/sign-in">Already registered ? Sign In</Link>
         </Button>
       </form>
 
@@ -84,7 +100,7 @@ export function SignInForm() {
       <form action={signInWithGithub}>
         <Button className="w-full" variant="outline" type="submit">
           <FaGithub className="mr-2 size-4 dark:invert" />
-          Sign in with GitHub
+          Sign up with GitHub
         </Button>
       </form>
     </div>
