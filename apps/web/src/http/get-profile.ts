@@ -3,8 +3,8 @@ import { api } from './api-client'
 interface GetProfileResponse {
   user: {
     id: string
-    name: string | null
-    email: string
+    name: string
+    slug: string
     avatarUrl: string | null
   }
 }
