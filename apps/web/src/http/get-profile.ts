@@ -4,7 +4,7 @@ interface GetProfileResponse {
   user: {
     id: string
     name: string
-    slug: string
+    email: string
     avatarUrl: string | null
   }
 }
