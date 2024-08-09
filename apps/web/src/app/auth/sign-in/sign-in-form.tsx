@@ -82,7 +82,12 @@ export function SignInForm() {
 
       <Separator />
       <form action={signInWithGithub}>
-        <Button className="w-full" variant="outline" type="submit">
+        <Button
+          className="w-full"
+          variant="outline"
+          type="submit"
+          disabled={isPending}
+        >
           <FaGithub className="mr-2 size-4 dark:invert" />
           Sign in with GitHub
         </Button>
