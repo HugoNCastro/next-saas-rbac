@@ -12,7 +12,7 @@ export async function getInvite(app: FastifyInstance) {
     '/invites/:inviteId',
     {
       schema: {
-        tags: ['invites'],
+        tags: ['Invites'],
         summary: 'Get an invite ',
         params: z.object({
           inviteId: z.string().uuid(),
