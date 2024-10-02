@@ -1,4 +1,4 @@
-'use state'
+'use client'
 
 import { PopoverContent, PopoverTrigger } from '@radix-ui/react-popover'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
